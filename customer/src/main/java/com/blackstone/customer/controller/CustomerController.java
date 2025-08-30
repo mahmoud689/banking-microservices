@@ -5,10 +5,7 @@ import com.blackstone.customer.dto.CustomerRequestDto;
 import com.blackstone.customer.service.CustomerService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 
@@ -28,6 +25,13 @@ public class CustomerController {
         return ResponseEntity
                 .created(URI.create("/api/v1/customers/" + created.getId()))
                 .body(created);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Customer> findById(@PathVariable("id") String id) {
+        return customerService.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
 }

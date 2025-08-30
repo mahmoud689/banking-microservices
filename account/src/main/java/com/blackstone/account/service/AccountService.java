@@ -1,6 +1,7 @@
 package com.blackstone.account.service;
 
 import com.blackstone.account.domain.Account;
+import com.blackstone.account.dto.AccountRequestDto;
 import com.blackstone.account.repository.AccountRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -55,5 +57,9 @@ public class AccountService {
         Account saved = repo.save(a);
 
         return saved;
+    }
+
+    public Optional<Account> findById(String id) {
+        return repo.findById(id);
     }
 }

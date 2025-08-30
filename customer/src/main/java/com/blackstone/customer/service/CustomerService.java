@@ -12,6 +12,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -21,7 +22,7 @@ public class CustomerService {
 
     public CustomerService(CustomerRepository repo, WebClient.Builder webClientBuilder) {
         this.repo = repo;
-        this.webClient = webClientBuilder.baseUrl("http://localhost:8082").build();
+        this.webClient = webClientBuilder.baseUrl("http://localhost:8080").build();
     }
 
     public Customer create(CustomerRequestDto req) {
@@ -64,5 +65,9 @@ public class CustomerService {
                 .retrieve().bodyToMono(Void.class).onErrorResume(e -> Mono.empty()).block();
 
         return saved;
+    }
+
+    public Optional<Customer> findById(String id) {
+        return repo.findById(id);
     }
 }
